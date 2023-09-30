@@ -1,0 +1,63 @@
+/* Header Styles */
+.header {
+    height: 80px;
+    padding: 2rem 14rem;
+    /* background-color: transparent; */
+    /* box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h1 {
+    max-height: 60px; 
+    color: var(--orange);
+}
+
+.navMenu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navMenu ul li {
+    display: inline;
+    margin-right: 20px; /* Adjust the spacing between menu items */
+}
+
+.navMenu ul li:last-child {
+    margin-right: 0; /* Remove margin from the last item */
+}
+
+.navLink {
+    text-decoration: none;
+    color: var(--light);
+    font-weight: 500; /* You can adjust the font weight */
+    transition: color 0.3s;
+    position: relative;
+}
+.active,
+.navLink:hover {
+    color: var(--orange);
+}
+
+/* Add a line that expands from the center to the left and right */
+.navLink::before {
+    content: '';
+    position: absolute;
+    bottom: -2px; /* Place the line at the bottom of the link */
+    width: 0; /* Initially, the line will be hidden */
+    height: 2px; /* Adjust the line thickness */
+    background-color: var(--orange); /* Adjust the line color */
+    transition: width 0.3s;
+    transform: scaleX(0); /* Initially, the line has no width */
+    transform-origin: center; /* Center the line */
+}
+
+/* Change the link color and expand the line on hover */
+.navLink:hover::before {
+    width: 100%; /* Expand the line to the left and right */
+    transform: scaleX(1); /* Scale the line to full width */
+    transition: width 0.3s;
+    color: var(--orange); /* Change the link color on hover */
+}
