@@ -1,0 +1,64 @@
+version: '3.9'
+networks:
+  hibatallah:
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx_hibatallah
+    ports:
+      - "8000:80"
+    volumes:
+      - "../backend:/var/www/html"
+      # - "react_build/app/build:/app/build"
+      - "./nginx/nginx.conf:/etc/nginx/conf.d/default.conf"
+    networks:
+      - hibatallah
+    depends_on:
+      - laravel
+      - react
+
+  mysql:
+    image: mysql:8.1
+    container_name: mysql_hibatallah
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./mysql:/var/lib/mysql"
+    restart: unless-stopped
+    tty: true
+    environment:
+      MYSQL_DATABASE: hibatallah_db
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - hibatallah
+    depends_on:
+      - laravel
+
+  laravel:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: laravel_hibatallah
+    ports:
+      - "9000:9000"
+    volumes:
+      - "../backend:/var/www/html"
+    networks:
+      - hibatallah
+
+  react:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: react_hibatallah
+    ports:
+      - "3000:80"
+    # volumes:
+    #    - "../frontend:/app"
+    networks:
+      - hibatallah
+    depends_on:
+      - laravel
+      - mysql
+
